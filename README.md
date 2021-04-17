@@ -27,6 +27,11 @@ Stay up to date with the latest release and announcements on Twitter:
 
 - Create a PostgreSQL database and configure `common\environment.ts` file
 - Run script file into `\scripts` folder
+- Create a `\photos` folder and copy your fotos to this path
+
+### Testing
+
+- Copy images files from `\sample` to `\photos` 
 
 ### Running
 
