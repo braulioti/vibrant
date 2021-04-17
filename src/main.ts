@@ -36,7 +36,7 @@ async function processCron() {
 
             const pallet = await getPallet(`${photoDir}/${file}`);
 
-            const photo: PhotoModel = new PhotoModel();
+            let photo: PhotoModel = new PhotoModel();
             photo.photo = new Buffer(image).toString('base64');
             photo.vibrant = pallet.Vibrant.hex;
             photo.darkVibrant = pallet.DarkVibrant.hex;
@@ -44,7 +44,10 @@ async function processCron() {
             photo.muted = pallet.Muted.hex;
             photo.darkMuted = pallet.DarkMuted.hex;
 
-            console.log(photo);
+            photo = await photoService.save(photo);
+
+            console.log(`Added image "${file}" in database with id=${photo.id}`);
+
             fs.unlinkSync(`${photoDir}/${file}`);
         }
     });
