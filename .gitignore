@@ -1,0 +1,8 @@
+#ItelliJ Directory
+.idea
+*.log
+
+# Generated Node Files
+dist
+node_modules
+package-lock.json
