@@ -1,0 +1,27 @@
+{
+  "name": "find_image_by_colors",
+  "version": "0.1.0",
+  "description": "Find Images By Color",
+  "main": "main.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/ejs": "^3.0.1",
+    "@types/node": "^14.14.41",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2",
+    "pg": "8.3.0",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^3.8.0",
+    "@typescript-eslint/parser": "^3.8.0",
+    "ejs-ts": "^1.0.0",
+    "eslint": "^7.6.0",
+    "eslint-config-google": "^0.14.0",
+    "ts-node": "5.0.1",
+    "typescript": "3.7.5"
+  }
+}
