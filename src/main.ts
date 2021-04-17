@@ -1,8 +1,9 @@
 import * as path from 'path';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
+import * as cron from 'node-cron';
 import {Database} from './common/database';
-import {paramsDB} from './common/environment';
+import {paramsDB, timer} from './common/environment';
 import {PhotoService} from './service/photo.service';
 
 const app = express();
@@ -10,6 +11,14 @@ const database = new Database(paramsDB);
 database.connect();
 
 const photoService = new PhotoService(database);
+
+function processCron() {
+    console.log('process cron');
+}
+
+cron.schedule(timer, () => {
+    processCron();
+});
 
 app.use('/assets', express.static(`${__dirname}/../views/assets`));
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -7,3 +7,5 @@ export const paramsDB: DatabaseConnectionParams = {
     host: '127.0.0.1',
     port: 5432
 }
+
+export const timer = '*/1 * * * *';
