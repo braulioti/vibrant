@@ -18,19 +18,33 @@
             <div class="col-12"><h1>Find Image By Colors - 0.1.0</h1></div>
         </div>
         <form class="form-horizontal row" method="post" action="/">
-            <div class="col-6">
+            <div class="col-3">
                 <div class="control-group">
                     <label>Pick a Color</label>
                     <div class="controls input-prepend">
                         <input type="text" name="color" id="color" class="color input-small"
-                               <% if(req) { %>
-                                value="<%= req.body.color %>"
-                               <% } %>
+                            <% if(req) { %>
+                               value="<%= req.body.color %>"
+                            <% } %>
                         />
                     </div>
                 </div>
             </div>
-            <div class="col-6 mt-3">
+            <div class="col-4">
+                <div class="control-group">
+                    <label>Inform Distance Between the Colors</label>
+                    <div class="controls input-prepend">
+                        <input type="text" name="distance" id="distance"
+                        <% if(req) { %>
+                               value="<%= req.body.distance %>"
+                        <% } else { %>
+                               value="0"
+                                <% } %>
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="col-5 mt-3">
                 <button class="btn btn-primary">Pesquisar</button>
             </div>
         </form>

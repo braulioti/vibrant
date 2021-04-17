@@ -25,6 +25,62 @@ function getPallet(folder): Promise<any> {
     });
 }
 
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+
+function RGBToHSL(r, g, b){
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    let min = Math.min(r, g, b),
+        max = Math.max(r, g, b),
+        delta = max - min,
+        h = 0,
+        s = 0,
+        l = 0;
+
+    if(delta === 0){
+        h = 0;
+    }else if(max === r){
+        h = ((g - b) / delta) % 6;
+    }else if(max === g){
+        h = (b - r) / delta + 2;
+    }else{
+        h = (r - g) / delta + 4;
+    }
+
+    h = Math.round(h * 60);
+    if(h < 0){
+        h += 360;
+    }
+
+    l = (max + min) / 2;
+    s = delta === 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+
+    s = +(s * 100).toFixed(1);
+    l = +(l * 100).toFixed(1);
+
+    return [h, s, l];
+}
+
+function distance(color1, color2) {
+    const c1 = hexToRgb(color1);
+    const c2 = hexToRgb(color2);
+
+    const rmean = (c1.r + c2.r ) / 2;
+    const r = c1.r - c2.r;
+    const g = c1.g - c2.g;
+    const b = c1.b - c2.b;
+    return Math.sqrt((((512+rmean)*r*r)>>8) + 4*g*g + (((767-rmean)*b*b)>>8));
+}
+
 async function processCron() {
     const files = fs.readdirSync(photoDir);
 
@@ -78,11 +134,8 @@ app.post('/', async (req, res) => {
 
     const result: PhotoModel[] = [];
     photos.forEach(photo => {
-        if (photo.vibrant === req.body.color ||
-            photo.lightVibrant === req.body.color ||
-            photo.darkVibrant === req.body.color ||
-            photo.muted === req.body.color ||
-            photo.darkMuted === req.body.color
+        if (distance(photo.vibrant, req.body.color) <= parseInt(req.body.distance) ||
+            distance(photo.muted, req.body.color) <= parseInt(req.body.distance)
         ) {
             result.push(photo)
         }
