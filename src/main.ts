@@ -65,12 +65,33 @@ app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/../views'));
 
-app.get('/', (req, res) => {
-    res.render('index.ejs', {});
+app.get('/', async  (req, res) => {
+    const photos: PhotoModel[] = await photoService.findAll();
+    res.render('index.ejs', {
+        photos: photos,
+        req: null
+    });
 });
 
-app.post('/', (req, res) => {
-    res.render('index.ejs', {});
+app.post('/', async (req, res) => {
+    const photos: PhotoModel[] = await photoService.findAll();
+
+    const result: PhotoModel[] = [];
+    photos.forEach(photo => {
+        if (photo.vibrant === req.body.color ||
+            photo.lightVibrant === req.body.color ||
+            photo.darkVibrant === req.body.color ||
+            photo.muted === req.body.color ||
+            photo.darkMuted === req.body.color
+        ) {
+            result.push(photo)
+        }
+    })
+
+    res.render('index.ejs', {
+        photos: result,
+        req: req
+    });
 });
 
 app.listen(3000, () => {

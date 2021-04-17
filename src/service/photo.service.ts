@@ -31,4 +31,35 @@ export class PhotoService extends Service {
                 });
             });
     }
+
+    findAll(): Promise<PhotoModel[]> {
+        return new Promise<PhotoModel[]>(async (resolve, reject) => {
+            const client = await this.database.getPool().connect();
+
+            client.query(
+                'SELECT photo, vibrant, muted, dark_vibrant, dark_muted, light_vibrant FROM photo'
+                , (err, result) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        const photos = [];
+                        result.rows.forEach(row => {
+                            const photo = new PhotoModel();
+
+                            photo.id = row.id;
+                            photo.photo = row.photo;
+                            photo.vibrant = row.vibrant;
+                            photo.muted = row.muted;
+                            photo.darkVibrant = row.dark_vibrant;
+                            photo.darkMuted = row.dark_muted;
+                            photo.lightVibrant = row.light_vibrant;
+
+                            photos.push(photo);
+                        });
+
+                        resolve(photos);
+                    }
+                });
+        });
+    }
 }
