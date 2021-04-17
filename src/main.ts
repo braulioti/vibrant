@@ -2,9 +2,10 @@ import * as path from 'path';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import * as cron from 'node-cron';
+import * as fs from 'fs';
 import {Database} from './common/database';
-import {paramsDB, timer} from './common/environment';
-import {PhotoService} from './service/photo.service';
+import {paramsDB, photoDir, timer} from './common/environment';
+import {PhotoModel, PhotoService} from './service/photo.service';
 
 const app = express();
 const database = new Database(paramsDB);
@@ -13,7 +14,19 @@ database.connect();
 const photoService = new PhotoService(database);
 
 function processCron() {
-    console.log('process cron');
+
+    const files = fs.readdirSync(photoDir);
+    files.forEach(file => {
+        console.log(file);
+        if (file.indexOf('.jpeg')) {
+            const image = fs.readFileSync(`${photoDir}/${file}`);
+
+            const photo: PhotoModel = new PhotoModel();
+            photo.photo = new Buffer(image).toString('base64');
+
+            fs.unlinkSync(`${photoDir}/${file}`);
+        }
+    });
 }
 
 cron.schedule(timer, () => {

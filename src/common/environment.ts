@@ -9,3 +9,4 @@ export const paramsDB: DatabaseConnectionParams = {
 }
 
 export const timer = '*/1 * * * *';
+export const photoDir = `${__dirname}/../../photos`;
