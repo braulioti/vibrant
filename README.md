@@ -15,6 +15,23 @@ Stay up to date with the latest release and announcements on Twitter:
 - PostgreSQL 13.0
 - NodeJS 14
 
+## Quickstart
+
+### Install Packages
+
+- npm
+- tsc -> `npm install -g typescript`
+- nodemon -> `npm install -g nodemon`
+
+### Before start
+
+- Create a PostgreSQL database and configure `common\environment.ts` file
+- Run script file into `\scripts` folder
+
+### Running
+
+- in main folder execute `nodemon dist/main.js`
+
 ## Versioning
 
 Find Image by Colors will be maintained under the Semantic Versioning guidelines as much as possible.
